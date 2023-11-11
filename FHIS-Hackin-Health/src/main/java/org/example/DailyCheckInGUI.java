@@ -2,6 +2,8 @@ package org.example;
 
 import com.sun.javafx.fxml.builder.JavaFXSceneBuilder;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
@@ -10,6 +12,7 @@ import javafx.scene.control.*;
 import javax.swing.*;
 
 public class DailyCheckInGUI extends Application {
+    private Patient patient = new Patient(1,"John", "Self");
     Label lblDailyCheckIn;
     Label lblFeelingReport;
     Label lblExplainFeeling;
@@ -29,12 +32,14 @@ public class DailyCheckInGUI extends Application {
     ButtonGroup bgDocSuggestions;
     Button btnSubmitSuggestions;
 
+    TextArea dailyCheckIn;
+
     public static void main(String[] args){
         launch();
     }
     @Override
     public void start(Stage primaryStage) throws Exception{
-        lblDailyCheckIn = new Label("|Daily Check In|");
+        lblDailyCheckIn = new Label("|Daily Check In|" + " " + patient.getFirstName() + " " + patient.getLastName());
         lblFeelingReport = new Label("How are your symptoms today?");
         ToggleGroup tgFeelingsReport = new ToggleGroup();
         rb5 = new RadioButton("5");
@@ -62,6 +67,23 @@ public class DailyCheckInGUI extends Application {
         lblDoctorSuggestions = new Label("Doctor Suggestions:\n These are daily health/lifestyle suggestions \nfrom your General Practioner");
         //bgDocSuggestions = new ButtonGroup();
         btnSubmitSuggestions = new Button("Submit Daily Check In");
+        dailyCheckIn = new TextArea();
+        dailyCheckIn.setVisible(false);
+        btnSubmitSuggestions.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                String explainFeeling = txtfFeelingReport.getText();
+                String feelingVal = tgFeelingsReport.getSelectedToggle().toString();
+                boolean tookMeds = false;
+                if(tgYesNoMed.getSelectedToggle().toString().equals("yes")){
+                    tookMeds = true;
+                }
+                String lifestyleChanges = txtfLifestyleChanges.getText();
+                dailyCheckIn.setText(String.format("%s \n %s \n %s \n %s", explainFeeling,feelingVal,tookMeds,lifestyleChanges));
+                dailyCheckIn.setVisible(true);
+                patient.addDailyCheckIn(new DailyCheckIn(explainFeeling,5,tookMeds,lifestyleChanges));
+            }
+        });
 
         GridPane gp = new GridPane();
         gp.add(lblDailyCheckIn, 0, 0);
@@ -80,7 +102,7 @@ public class DailyCheckInGUI extends Application {
         gp.add(txtfLifestyleChanges, 0, 6);
         gp.add(lblDoctorSuggestions, 0,7);
         gp.add(btnSubmitSuggestions, 0,10);
-
+        gp.add(dailyCheckIn, 7, 7);
         Label lblSuggestions = new Label("\n Get more sleep\n Drink More Water\nGo for a walk");
         gp.add(lblSuggestions, 0, 8);
         gp.setVgap(20);
