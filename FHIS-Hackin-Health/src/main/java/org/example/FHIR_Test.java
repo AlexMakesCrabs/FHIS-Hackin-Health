@@ -49,15 +49,15 @@ public class FHIR_Test {
         } else System.out.println("Error: " + responseA.statusCode());
 
 
-        //request for patient medication info
-        query = "MedicationRequest?subject=" + patientID;
-
-        requestA = HttpRequest.newBuilder().header("Authorization", "Bearer " + accessToken).uri(URI.create(uri + query)).GET().build();
-        responseA = clientA.send(requestA, HttpResponse.BodyHandlers.ofString());
-
-        if (responseA.statusCode() == 200) {
-            getPatientMedInfo(responseA);
-        } else System.out.println("Error: " + responseA.statusCode());
+//        //request for patient medication info
+//        query = "MedicationRequest?subject=" + patientID;
+//
+//        requestA = HttpRequest.newBuilder().header("Authorization", "Bearer " + accessToken).uri(URI.create(uri + query)).GET().build();
+//        responseA = clientA.send(requestA, HttpResponse.BodyHandlers.ofString());
+//
+//        if (responseA.statusCode() == 200) {
+//            getPatientMedInfo(responseA);
+//        } else System.out.println("Error: " + responseA.statusCode());
     }
 
     private static void getPatientMedInfo(HttpResponse<String> responseA) {
