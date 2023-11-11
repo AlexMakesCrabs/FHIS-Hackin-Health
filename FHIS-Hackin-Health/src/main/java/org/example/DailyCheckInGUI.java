@@ -12,7 +12,7 @@ import javafx.scene.control.*;
 import javax.swing.*;
 
 public class DailyCheckInGUI extends Application {
-    private Patient patient = new Patient(1,"John", "Self");
+    private Patient patient;
     Label lblDailyCheckIn;
     Label lblFeelingReport;
     Label lblExplainFeeling;
@@ -33,6 +33,9 @@ public class DailyCheckInGUI extends Application {
     Button btnSubmitSuggestions;
 
     TextArea dailyCheckIn;
+    public void setPatient(int id, String firstName, String lastName){
+        this.patient = new Patient(id, firstName, lastName);
+    }
 
     public static void main(String[] args){
         launch();
@@ -81,7 +84,7 @@ public class DailyCheckInGUI extends Application {
                 String lifestyleChanges = txtfLifestyleChanges.getText();
                 dailyCheckIn.setText(String.format("%s \n %s \n %s \n %s", explainFeeling,feelingVal,tookMeds,lifestyleChanges));
                 dailyCheckIn.setVisible(true);
-                patient.addDailyCheckIn(new DailyCheckIn(explainFeeling,5,tookMeds,lifestyleChanges));
+                patient.addDailyCheckIn(new DailyCheckIn("11/11/23",explainFeeling,5,tookMeds,lifestyleChanges));
             }
         });
 
