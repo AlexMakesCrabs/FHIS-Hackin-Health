@@ -45,7 +45,7 @@ public class FHIR_Test {
 
         // Build GET request with access token
         HttpRequest requestA = HttpRequest.newBuilder().header("Authorization", "Bearer " + accessToken)
-                .uri(URI.create("https://app.azaleahealth.com/fhir/R4/142425/Patient")).GET().build();
+                .uri(URI.create("https://app.azaleahealth.com/fhir/R4/142425/Name=Edna_Hill")).GET().build();
 
 
         // Send request
