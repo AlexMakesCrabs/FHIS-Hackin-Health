@@ -153,7 +153,7 @@ public class AllInOneGui extends Application{
 
     public Scene createSceneAddDailyCheckIn(){
         Label lblDailyCheckIn = new Label("|Daily Check In|" + " " + "John Self");
-        Label lblFeelingReport = new Label("How are your symptoms today?");
+        Label lblFeelingReport = new Label("How are your symptoms today? (5 Meaning no Symptoms, 1 Meaning unbearable");
         ToggleGroup tgFeelingsReport = new ToggleGroup();
         RadioButton rb5 = new RadioButton("5");
         rb5.setToggleGroup(tgFeelingsReport);
@@ -224,6 +224,8 @@ public class AllInOneGui extends Application{
             @Override
             public void handle(ActionEvent actionEvent) {
                 DailyCheckIn dc = new DailyCheckIn("",txtfFeelingReport.getText(), feelingsValue,tookMeds , txtfLifestyleChanges.getText());
+                textFieldSuggestions.setText("");
+                textAreaSuggestions.setText("");
                 patient.addDailyCheckIn(dc);
                 switchScenes(scenePatientListOfOptions);
             }
@@ -254,7 +256,7 @@ public class AllInOneGui extends Application{
         gp.setVgap(10);
         gp.setHgap(20);
         //gp.add(bgDocSuggestions, 0,4);
-        Scene sc = new Scene(gp, 200+size,200+size);
+        Scene sc = new Scene(gp, 500+size,500+size);
         return sc;
     }
     private Scene createPatientListOfOptions(){
