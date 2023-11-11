@@ -42,6 +42,7 @@ public class AllInOneGui extends Application{
         sceneAddDailyCheckIn = createSceneAddDailyCheckIn();
         scenePatientListOfOptions = createPatientListOfOptions();
         sceneListOfCheckInCharts = createSceneListOfCheckIns();
+        sceneCheckInChart = createSceneCheckInChart();
 
         stage.setScene(sceneFindPatient);
         stage.show();
@@ -82,10 +83,10 @@ public class AllInOneGui extends Application{
 
     private Scene createSceneListOfCheckIns(){
         Patient p = new Patient(1,"John", "Self");
-        DailyCheckIn dc1 = new DailyCheckIn("11/08/23","Good", 5, true, "Got a puppy");
+        DailyCheckIn dc1 = new DailyCheckIn("10/08/23","Good", 5, true, "Got a puppy");
         DailyCheckIn dc2 = new DailyCheckIn("11/09/23","Okay", 4, true, "Got a dog");
         DailyCheckIn dc3 = new DailyCheckIn("11/10/23","Fine", 3, true, "Got a slushie");
-        DailyCheckIn dc4 = new DailyCheckIn("11/11/23","meh", 2, false, "Got a frawg");
+        DailyCheckIn dc4 = new DailyCheckIn("11/06/23","meh", 2, false, "Got a frawg");
         p.addDailyCheckIn(dc1);
         p.addDailyCheckIn(dc2);
         p.addDailyCheckIn(dc3);
@@ -113,21 +114,44 @@ public class AllInOneGui extends Application{
         Label lblListOfCharts = new Label("List of Charts");
         int row = 0;
         int col = 0;
-        gp.add(lblListOfCharts, col, row);
+        gp.add(lblListOfCharts, col, row++);
         CheckInChartManager ccM = new CheckInChartManager();
         ccM.addCheckInChart(cc1);
         ccM.addCheckInChart(cc2);
+        ToggleGroup tgCharts = new ToggleGroup();
         for (CheckInChart cIC : ccM.getPatientsCheckInCharts()){
-            Label lblDateRange= new Label(cIC.getDaterange());
-            Button btnGetChart = new Button("Get Chart");
-            gp.add(lblDateRange, col++, row);
-            gp.add(btnGetChart,col++, row);
+            col = 0;
+            RadioButton rbGetChart = new RadioButton(cIC.getDaterange());
+            rbGetChart.setToggleGroup(tgCharts);
+            gp.add(rbGetChart,col, row++);
         }
+
+        Button btnGetChart = new Button("Get Selected Chart");
+
+        RadioButton rb = (RadioButton) tgCharts.getSelectedToggle();
+        String dateForChart = "";
+        if (rb !=null){
+            dateForChart = rb.getText();
+        }
+        btnGetChart.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                RadioButton rb = (RadioButton) tgCharts.getSelectedToggle();
+                if (rb != null) {
+                    //dateForChart = rb.getText();
+                    CheckInChart cc = ccM.getCheckInChartByDateRange(rb.getText());
+                }
+                switchScenes(sceneCheckInChart);
+            }
+        });
+        gp.add(btnGetChart,0,row);
+
         Scene sc = new Scene(gp, size, size);
+        sc.setUserData(dateForChart);
         return sc;
     }
 
-    private Scene createSceneAddDailyCheckIn(){
+    public Scene createSceneAddDailyCheckIn(){
         Label lblDailyCheckIn = new Label("|Daily Check In|" + " " + "John Self");
         Label lblFeelingReport = new Label("How are your symptoms today?");
         ToggleGroup tgFeelingsReport = new ToggleGroup();
@@ -226,8 +250,8 @@ public class AllInOneGui extends Application{
         gp.add(lblTitleOfSuggestion,0,8);
         gp.add(textFieldSuggestions,0,11);
         //Label lblSuggestions = new Label("\n Get more sleep\n Drink More Water\nGo for a walk");
-        gp.add(textAreaSuggestions, 1, 12);
-        gp.setVgap(20);
+        gp.add(textAreaSuggestions, 0, 12);
+        gp.setVgap(10);
         gp.setHgap(20);
         //gp.add(bgDocSuggestions, 0,4);
         Scene sc = new Scene(gp, 200+size,200+size);
@@ -257,6 +281,77 @@ public class AllInOneGui extends Application{
         gp.add(btnViewCharts, 1, 0);
         gp.add(lblAddDailyCheckIn,0,1);
         gp.add(btnGoToDailyCheckIn, 1, 1);
+
+        Scene sc = new Scene(gp, size,size);
+        return sc;
+
+    }
+    public Scene createSceneCheckInChart(){
+        GridPane gp = new GridPane();
+
+        Patient p = new Patient(1,"John", "Self");
+        DailyCheckIn dc1 = new DailyCheckIn("11/08/23","Good", 5, true, "Got a puppy");
+        DailyCheckIn dc2 = new DailyCheckIn("11/09/23","Okay", 4, true, "Got a dog");
+        DailyCheckIn dc3 = new DailyCheckIn("11/10/23","Fine", 3, true, "Got a slushie");
+        DailyCheckIn dc4 = new DailyCheckIn("11/11/23","meh", 2, false, "Got a frawg");
+        p.addDailyCheckIn(dc1);
+        p.addDailyCheckIn(dc2);
+        p.addDailyCheckIn(dc3);
+        p.addDailyCheckIn(dc4);
+        CheckInChart cc1 = new CheckInChart();
+        cc1.addDailyCheckIn(dc1);
+        cc1.addDailyCheckIn(dc2);
+        cc1.addDailyCheckIn(dc3);
+        cc1.addDailyCheckIn(dc4);
+
+        DailyCheckIn dc5 = new DailyCheckIn("11/08/23","Good", 5, true, "Got a puppy");
+        DailyCheckIn dc6 = new DailyCheckIn("11/09/23","Okay", 4, true, "Got a dog");
+        DailyCheckIn dc7 = new DailyCheckIn("11/10/23","Fine", 3, true, "Got a slushie");
+        DailyCheckIn dc8 = new DailyCheckIn("11/11/23","meh", 2, false, "Got a frawg");
+        p.addDailyCheckIn(dc5);
+        p.addDailyCheckIn(dc6);
+        p.addDailyCheckIn(dc7);
+        p.addDailyCheckIn(dc8);
+        CheckInChart cc2 = new CheckInChart();
+        cc2.addDailyCheckIn(dc5);
+        cc2.addDailyCheckIn(dc6);
+        cc2.addDailyCheckIn(dc7);
+        cc2.addDailyCheckIn(dc8);
+
+        String dateRange = p.getDailyCheckIns().get(0).getDate() + " to " + p.getDailyCheckIns().get(p.dailyCheckIns.size()-1).getDate();
+        Label lblCheckInChart = new Label("Check In Chart for " + p.getFirstName() + " " + p.getLastName() + " " + dateRange);
+        gp.add(lblCheckInChart, 0, 0);
+        gp.setHgap(20);
+        gp.setGridLinesVisible(true);
+        TextArea textArea = new TextArea();
+        String chartBuilder = "";
+        int count = 0;
+        CheckInChartManager ccM = new CheckInChartManager();
+        ccM.addCheckInChart(cc1);
+        ccM.addCheckInChart(cc2);
+        Label lblTest = new Label((String) sceneListOfCheckInCharts.getUserData());
+        gp.add(lblTest, 2, 2);
+        CheckInChart activeChart = ccM.getCheckInChartByDateRange(sceneListOfCheckInCharts.getUserData().toString());
+        if(activeChart != null){
+
+
+            for (DailyCheckIn dc : activeChart.getDailyCheckInsList()) {
+                Label lbl = new Label(dc.toString());
+                if (dc.getFeelingsValue() > 3) {
+                    lbl.setStyle("-fx-background-color: green");
+                } else if (dc.getFeelingsValue() == 3) {
+                    lbl.setStyle("-fx-background-color: yellow");
+                } else {
+                    lbl.setStyle("-fx-background-color: red");
+                }
+                gp.add(lbl, count++, 3);
+
+
+            }
+        }
+        textArea.setText(chartBuilder);
+
+
 
         Scene sc = new Scene(gp, size,size);
         return sc;

@@ -43,7 +43,7 @@ public class DailyCheckIn {
     @Override
     public String toString(){
         String msg = "";
-        msg += String.format("%s\nSymptom Level: %d\nReason for Symptom: %s\nMedication taken correctly: %s\nReported Lifestyle Changes: %s\n",date,feelingsValue,feelingsReport,getTookMedsStatus(),lifeStyleChanges);
+        msg += String.format("%s\nSymptom Level: %d\nExplain Symptom Level: %s\nMedication taken correctly: %s\nReported Lifestyle Changes: %s\n",date,feelingsValue,feelingsReport,getTookMedsStatus(),lifeStyleChanges);
         return msg;
     }
 }
