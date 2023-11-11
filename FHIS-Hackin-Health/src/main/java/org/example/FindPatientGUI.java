@@ -14,7 +14,7 @@ public class FindPatientGUI extends Application {
     Label lblLastName;
     TextField txtLastName;
 
-    Label lblEmailAddress;
+    Label lblPatientID;
     TextField txtEmailAddress;
     Button btnGetInfo;
 
@@ -26,7 +26,7 @@ public class FindPatientGUI extends Application {
             btnGetInfo = new Button("Submit");
             lblFirstName = new Label("First Name");
             lblLastName = new Label("Last Name");
-            lblEmailAddress = new Label("Email Address");
+            lblPatientID = new Label("Patient ID");
             txtFirstName = new TextField();
             txtLastName = new TextField();
             txtEmailAddress = new TextField();
@@ -35,7 +35,7 @@ public class FindPatientGUI extends Application {
             vbox1.getChildren().add(txtFirstName);
             vbox1.getChildren().add(lblLastName);
             vbox1.getChildren().add(txtLastName);
-            vbox1.getChildren().add(lblEmailAddress);
+            vbox1.getChildren().add(lblPatientID);
             vbox1.getChildren().add(txtEmailAddress);
             vbox1.getChildren().add(btnGetInfo);
             Scene sc = new Scene(vbox1);
